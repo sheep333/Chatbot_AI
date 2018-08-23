@@ -11,7 +11,7 @@ from app.forms import UserForm
 #from rest_framework.views import APIView
 
 import csv
-
+from predictor import Predictor
 
 
 def home(request):
@@ -90,12 +90,6 @@ def predict(request):
     assert isinstance(request, HttpRequest)
     if request.method == 'GET':
         sentence = request.GET.get('sentence')
-    #model = joblib.load('model.pkl')
-    #model.predict()
-    #import pandas as pd
-    #df = pd.read_csv("sample.csv")
-    # ヘッダーがある場合
-    #json = df.to_json(orient="records")
-    #print(json)
-    return HttpResponse("<p>"+sentence+"</p>")
+        p = new Predictor()
+    return HttpResponse(p.execute(sentence))
 
