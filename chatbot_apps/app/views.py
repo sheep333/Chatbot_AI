@@ -7,12 +7,10 @@ from datetime import datetime
 
 from app.models import User
 from app.forms import UserForm
+from app.predictor import Predictor
 
 #from rest_framework.views import APIView
-
 import csv
-from predictor import Predictor
-
 
 def home(request):
     """Renders the home page."""
