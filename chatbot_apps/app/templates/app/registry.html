@@ -1,0 +1,11 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+    <form action="{url 'registry_friend'}">
+        {{ user_form }}
+        {% csrf_token %}
+    </form>
+    <button type="submit" value="next">次へ</button>
+
+{% endblock %}

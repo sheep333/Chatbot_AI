@@ -1,0 +1,9 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+    <form action="{url 'chat'}">
+        {{ user_form }}
+        {% csrf_token %}
+    </form>
+    <button>次へ</button>
+{% endblock %}
