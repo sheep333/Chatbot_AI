@@ -71,7 +71,7 @@
 
     function dataPreserve() {
         $.ajax({
-            'url': datapreserve_url,
+            'url': preserve_url,
             'data': {
                 'exit': True,
             },
