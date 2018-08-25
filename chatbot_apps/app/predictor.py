@@ -6,7 +6,7 @@ from sklearn.externals import joblib
 import tensorflow.contrib.learn as skflow
 import Mecab
 
-class Predictor(sentence):
+class Predictor():
     tagger = MeCab.Tagger("-Ochasen")
     INDEX_CATEGORY = 0
     INDEX_ROOT_FORM = 6

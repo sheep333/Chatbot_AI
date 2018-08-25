@@ -90,6 +90,7 @@ data = model.fit(classify_dictionary,classify_label)
 """
 #できるならRNNで前後の文脈も判断したい
 #RNNで渡すには単語ごとに分解して覚えている数を指定して、次の文に移ったらリセットのような形で関連性を学習させればよさそう
+#現在は1文の辞書を学習単位としているので、1単語ごとに学習させたうえ1文を学習させるというベクトルに変更すればよい？？
 #classifier = skflow.TensorFlowRNNClassifier(rnn_size=EMBEDDING_SIZE, 
 #    n_classes=15, cell_type='gru', input_op_fn=input_op_fn,
 #    num_layers=1, bidirectional=False, sequence_length=None,
@@ -120,8 +121,9 @@ print(compatible_class)
 
 for (c,x) in  enumerate(m.predict_proba(new_data)[0]):
     print(":".join([str(c), str(x)]))
-    
-print(reply_df['Label'].query('Label == '+ str(compatible_class)))
+
+result = reply_df.query('Label == '+ str(compatible_class));
+print(result['Words'])
 
 
 """Kerasを使ってみたい
