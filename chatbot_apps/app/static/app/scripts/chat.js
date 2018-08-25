@@ -49,9 +49,7 @@
             }
         }).then(function (res) {
             sentence = res.value;
-            //predict_content = predictAnswer(sentence)
             predictAnswer(sentence, function(predict_content) {
-                console.log(predict_content);
                 afterPredict(predict_content);
             })
         })
@@ -81,6 +79,7 @@
             });
         }).then(function (res) {
             if (res.value == false) {
+                end();
                 for (let k = 0; k < data.length; k++) {
                     line_num = data[k][0];
                     data_file[line_num][1] = data[k][1];
@@ -93,7 +92,7 @@
 
     function predictAnswer(sentence, f) {
         $.ajax({
-            'url': url,
+            'url': target_url,
             'data': {
                 'sentence': sentence,
             },

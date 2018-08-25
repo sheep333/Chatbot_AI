@@ -15,8 +15,8 @@ from sklearn.externals import joblib
 #50音データ読み込み
 
 #reply.csvのインポート
-reply_df = pd.read_csv('reply.csv')
-df = pd.read_csv('data.csv')
+reply_df = pd.read_csv('data/reply.csv')
+df = pd.read_csv('data/data.csv')
 
 #--形態素解析してTF-IDFで特徴語を抽出して辞書化--#
 #必要なメンバ
@@ -99,32 +99,10 @@ data = model.fit(classify_dictionary,classify_label)
 
 model = classifier.fit(classify_dictionary,classify_label)
 
-#modelの保存と呼び出し
-joblib.dump(model, 'model.pkl')
-joblib.dump(appearance,'appear.pkl')
-joblib.dump(le, 'le.pkl')
-
-m = joblib.load('model.pkl')
-a = joblib.load('appear.pkl')
-le = joblib.load('le.pkl')
-
-#予測
-a="かしこい？"
-
-text=[]
-text.append(a)
-new_data = cv.transform(text)
-classify=m.predict(new_data)
-compatible_class = le.inverse_transform(classify)
-
-print(compatible_class)
-
-for (c,x) in  enumerate(m.predict_proba(new_data)[0]):
-    print(":".join([str(c), str(x)]))
-
-result = reply_df.query('Label == '+ str(compatible_class));
-print(result['Words'])
-
+#modelの保存
+joblib.dump(model, 'dump/model.pkl')
+joblib.dump(appearance,'dump/appear.pkl')
+joblib.dump(le, 'dump/le.pkl')
 
 """Kerasを使ってみたい
 #################

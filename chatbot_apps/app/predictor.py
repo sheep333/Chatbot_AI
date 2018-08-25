@@ -4,7 +4,11 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.externals import joblib
 import tensorflow.contrib.learn as skflow
+import joblib
 import Mecab
+
+#ラベルや学習モデルはずっとかわらないので、staticで持っておくのがいいかもしれない
+#一回一回読み込んでたら死ぬのでは？
 
 class Predictor():
     tagger = MeCab.Tagger("-Ochasen")
@@ -17,12 +21,20 @@ class Predictor():
         self.words = []
             
     def execute(self,sentence):
+        #データ読み込み
+        le = joblib.dump("le.pkl")
+        m = joblib.dump("model.pkl")
+        
+        #予測
         cv = TfidfVectorizer(analyzer=extract_words)
         text.append(sentence)
         new_data = cv.transform(text)
         classify=m.predict(new_data)
+        
+        #戻り値呼び出し
         compatible_class = le.inverse_transform(classify)
         result = reply_df.query('Label == '+ str(compatible_class))
+
         return result["Words"]
 
     def extract_words(self,text):
