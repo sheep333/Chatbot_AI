@@ -88,6 +88,6 @@ def predict(request):
     assert isinstance(request, HttpRequest)
     if request.method == 'GET':
         sentence = request.GET.get('sentence')
-        p = new Predictor()
+        p = Predictor()
     return HttpResponse(p.execute(sentence))
 
