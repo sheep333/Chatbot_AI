@@ -1,11 +1,11 @@
-﻿$(function () {
+﻿(function () {
     //------------------//
     //LearningModeの処理//
     //------------------//
 
     //FIXME:ここらへんの処理はPythonでできるなら値だけJSONとかで渡したい
     //FIXME:できるだけ2次元配列処理ではなく、MapとかにしてO(1)で速さあげたい。
-    //とはいえ、一行ずつループ処理するならそんなかわらないかも？
+    //とはいえ、全ての行を一行ずつループ処理するならそんなかわらないかも？
 
     //CSVファイルを二次元配列([data,label]の配列)に変換
     function convertCSVtoArray(str) {
@@ -27,39 +27,23 @@
         }
 
         let answer_data = result.map((result_set, i) => ({
-            value: result[0],
+            value:result[0],
             answer:result[1]
         }))
     }
 
-    //Twitterのデータファイル読み込み
-    /*data_file = "data.csv"
-    let req = new XMLHttpRequest();
-    req.open("get", data_file);
-    req.send(null)
-
-    req.onload = function () {
-        let dataset = convertCSVtoArray(req.responseText);
-    }*/
-
-    //Answerのデータファイル読み込み
-    /*answer_file = "answer.csv"
-    let req = new XMLHttpRequest();
-    req.open("get", answer_file);
-    req.send(null)
-
-    req.onload = function () {
-        let answerData = convertCSVtoMap(req.responseText);
-    }*/
-
     //BotUIを作成
     let botui = new BotUI('chat-app')
     var data = [] //ラベル配列用初期化
+    const x = 3;
 
+    let a = 3 + 2;
+    let b = 3 + 5;
     botui.message.add({
         content: 'こんにちは!'
     }).then(init);
 
+    //FIXME:promiseでちゃんと制御したい。
     function init() {
         return botui.action.text({
             delay: 1000,
@@ -67,24 +51,27 @@
                 placeholder: 'Enter your text here'
             }
         }).then(function (res) {
-            console.log(res);
             sentence = res.value;
-            console.log(sentence);
-            content = predictAnswer(sentence);
-            console.log(content);
+            //predict_content = predictAnswer(sentence)
+            predictAnswer(sentence, function(predict_content) {
+                console.log(predict_content);
+                afterPredict(predict_content);
+            })
+        })
+    }
+
+    function afterPredict(predict_content) {
+        botui.message.add({
+            delay: 500,
+            content: predict_content,
         }).then(function () {
             botui.message.add({
-                delay: 200,
-                content: content,
-            });
-        }).then(function () {
-            botui.message.add({
-                delay: 200,
+                delay: 500,
                 content: 'まだ続けますか？'
             });
         }).then(function () {
             return botui.action.button({
-                delay: 200,
+                delay: 500,
                 action: [{
                     icon: 'circle-thin',
                     text: 'はい',
@@ -101,21 +88,21 @@
                     line_num = data[k][0];
                     data_file[line_num][1] = data[k][1];
                 }
+            }else{
+                init();
             }
         });
     }
 
-    function predictAnswer(sentence) {
+    function predictAnswer(sentence, f) {
         $.ajax({
-            'url': 'http://localhost:8000/predict/',
+            'url': url,
             'data': {
                 'sentence': sentence,
             },
-            'timeout': 10000,
             'dataType': 'text',
-        })
-        .done(function (data) {
-            return data;
+        }).done(function (predict_data) {
+            f(predict_data);
         })
     }
 
@@ -125,4 +112,4 @@
             content: 'またね！'
         })
     }
-});
+})();
