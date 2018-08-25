@@ -11,6 +11,10 @@ from app.predictor import Predictor
 
 #from rest_framework.views import APIView
 import csv
+import pandas as pd
+import datetime
+
+chat_data = [['sentence','label']]
 
 def home(request):
     """Renders the home page."""
@@ -89,5 +93,21 @@ def predict(request):
     if request.method == 'GET':
         sentence = request.GET.get('sentence')
         p = Predictor()
-    return HttpResponse(p.execute(sentence))
+        result = p.execute(sentence)
+        chat_data.append = [sentence,result['Label']]
+        return HttpResponse(result['Words'])
+    else:
+        return HttpResponse("データが不正です")
 
+def preserve(request):
+    assert isinstance(request, HttpRequest)
+    if request.method == 'GET':
+        exit = request.GET.get('exit')
+        if exit:
+            date = datetime.datetime.now()
+            file_date = date.year + date.month + date.day + date.hour + date.minute + date.second
+            file_name = 'data'+ file_date +'.csv'
+            chat_data.to_csv(file_name)
+            print(file_name + "を作成しました")
+    else:
+        print("ERROR:CSVの書き込みに失敗しました")
