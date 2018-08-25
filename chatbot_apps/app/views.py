@@ -99,7 +99,7 @@ def predict(request):
     else:
         return HttpResponse("データが不正です")
 
-def dataPreserve(request):
+def preserve(request):
     assert isinstance(request, HttpRequest)
     if request.method == 'GET':
         exit = request.GET.get('exit')

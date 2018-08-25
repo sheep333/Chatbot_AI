@@ -3,35 +3,6 @@
     //LearningModeの処理//
     //------------------//
 
-    //FIXME:ここらへんの処理はPythonでできるなら値だけJSONとかで渡したい
-    //FIXME:できるだけ2次元配列処理ではなく、MapとかにしてO(1)で速さあげたい。
-    //とはいえ、全ての行を一行ずつループ処理するならそんなかわらないかも？
-
-    //CSVファイルを二次元配列([data,label]の配列)に変換
-    function convertCSVtoArray(str) {
-        let result = []
-        let row = str.split("\n");
-
-        for (let i = 0; i < row.length; i++) {
-            result[i] = tmp[i].split(';')
-        }
-    }
-
-    //CSVファイルをMap([data,label]の配列)に変換
-    function convertCSVtoMap(str) {
-        let result = []
-        let row = str.split("\n");
-
-        for (let i = 0; i < row.length; i++) {
-            result[i] = tmp[i].split(';')
-        }
-
-        let answer_data = result.map((result_set, i) => ({
-            value:result[0],
-            answer:result[1]
-        }))
-    }
-
     //BotUIを作成
     let botui = new BotUI('chat-app')
     let data = [] //ラベル配列用初期化
