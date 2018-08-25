@@ -34,11 +34,8 @@
 
     //BotUIを作成
     let botui = new BotUI('chat-app')
-    var data = [] //ラベル配列用初期化
-    const x = 3;
+    let data = [] //ラベル配列用初期化
 
-    let a = 3 + 2;
-    let b = 3 + 5;
     botui.message.add({
         content: 'こんにちは!'
     }).then(init);
