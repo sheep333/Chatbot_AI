@@ -79,11 +79,7 @@
             });
         }).then(function (res) {
             if (res.value == false) {
-                end();
-                for (let k = 0; k < data.length; k++) {
-                    line_num = data[k][0];
-                    data_file[line_num][1] = data[k][1];
-                }
+                dataPreserve();
             }else{
                 init();
             }
@@ -92,7 +88,7 @@
 
     function predictAnswer(sentence, f) {
         $.ajax({
-            'url': target_url,
+            'url': predict_url,
             'data': {
                 'sentence': sentence,
             },
@@ -102,6 +98,17 @@
         })
     }
 
+    function dataPreserve() {
+        $.ajax({
+            'url': datapreserve_url,
+            'data': {
+                'exit': True,
+            },
+            'dataType': 'text',
+        }).done({
+            end();
+        })
+    }
     //プログラムを終了する処理
     function end() {
         botui.message.add({
