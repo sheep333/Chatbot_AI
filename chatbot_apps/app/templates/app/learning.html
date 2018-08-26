@@ -1,4 +1,4 @@
-﻿{% load staticfiles %}
+{% load staticfiles %}
 <!Doctype html>
 <html lang="ja">
 
@@ -18,9 +18,11 @@
         <bot-ui></bot-ui>
     </div>
     <script>
-        predict_url = '{% url "predict" %}'
-        preserve_url = '{% url "preserve" %}'
+        training_url = '{% url "training" %}'
+        reply_url = '{% url "reply" %}'
     </script>
-    <script>"{% static 'app/scripts/chat.js' %}"</script>
+    <script>"{% static 'app/scripts/chat_learning.js' %}"</script>
+
+{% endif %}
 </body>
 </html>

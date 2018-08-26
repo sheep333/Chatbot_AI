@@ -26,6 +26,21 @@
         })
     }
 
+    //予測をAjaxでPythonからとってくる
+    function predictAnswer(sentence, f) {
+        $.ajax({
+            'url': predict_url,
+            'data': {
+                'sentence': sentence,
+            },
+            'dataType': 'text',
+            'type':'GET',
+        }).done(function (predict_data) {
+            f(predict_data);
+        })
+    }
+
+    //予測後の処理
     function afterPredict(predict_content) {
         botui.message.add({
             delay: 500,
@@ -57,18 +72,6 @@
         });
     }
 
-    function predictAnswer(sentence, f) {
-        $.ajax({
-            'url': predict_url,
-            'data': {
-                'sentence': sentence,
-            },
-            'dataType': 'text',
-        }).done(function (predict_data) {
-            f(predict_data);
-        })
-    }
-
     function dataPreserve() {
         $.ajax({
             'url': preserve_url,
@@ -76,6 +79,7 @@
                 'exit': True,
             },
             'dataType': 'text',
+            'type':'GET',
         }).done({
             end();
         })
