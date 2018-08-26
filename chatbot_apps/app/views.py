@@ -15,6 +15,21 @@ import pandas as pd
 import datetime
 
 chat_data = [['sentence','label']]
+learning_data = [['sentence','label']]
+
+class StaticClass:
+    static_cnt = 0
+    static_sentence_csv = pd.read_csv('learning_data.csv')
+    static_reply_csv = pd.read_csv('reply.csv')
+
+    def __init__(self, str):
+        StaticClass.static_cnt += 1
+
+    def get_sentence_csv(self):
+        return static_sentence_csv[static_cnt]
+
+    def get_reply_json_all(self):
+        return static_reply_csv.to_json
 
 def home(request):
     """Renders the home page."""
@@ -111,3 +126,28 @@ def preserve(request):
             print(file_name + "を作成しました")
     else:
         print("ERROR:CSVの書き込みに失敗しました")
+
+def learning(request):
+    assert isinstance(request, HttpRequest) #例外処理
+    return render(
+        request,
+        'app/learning.html',
+        {
+            'title':'学習用ページ'
+        }
+   )
+
+def training(request):
+    assert isinstance(request, HttpRequest)
+    if request.method == 'GET':
+        return HttpResponse(StaticClass.get_sentence_csv())
+    elif request.method == "POST";
+        sentence = request.POST.get('sentence')
+        label = request.POST.get('label')
+        learning_data.append(sentence,label)
+        
+
+def reply(request):
+    assert isinstance(request, HttpRequest)
+    if request.method == 'GET':
+        return HttpResponse(StaticClass.get_reply_json_all())
