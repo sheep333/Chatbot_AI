@@ -26,7 +26,8 @@ urlpatterns = [
     path('registry/', views.registryUser, name='registry'),
     path('registry_user/', views.registryFriend, name='registry_friend'),
     path('predict/', views.predict, name='predict'),
-    path('preserve/', views.predict, name='preserve'),
-    path('learning/', views.predict, name='learning'),
-
+    path('preserve/', views.preserve, name='preserve'),
+    path('learning/', views.learning, name='learning'),
+    path('training/', views.training, name='training'),
+    path('reply/', views.reply, name='reply'),
 ]
