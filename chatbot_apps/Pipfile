@@ -8,6 +8,13 @@ django = "*"
 pillow = "*"
 djangorestframework = "*"
 emoji = "*"
+dj-database-url = "*"
+pandas = "*"
+sklearn = "*"
+scipy = "*"
+tensorflow = "*"
+joblib = "*"
+mecab-python-windows = "*"
 
 [dev-packages]
 

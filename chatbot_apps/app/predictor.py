@@ -4,8 +4,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.externals import joblib
 import tensorflow.contrib.learn as skflow
-import joblib
-import Mecab
+import MeCab
 
 #ラベルや学習モデルはずっとかわらないので、staticで持っておくのがいいかもしれない
 #一回一回読み込んでたら死ぬのでは？
@@ -15,29 +14,11 @@ class Predictor():
     INDEX_CATEGORY = 0
     INDEX_ROOT_FORM = 6
     TARGET_CATEGORIES = ["名詞","動詞","形容詞","連体詞","副詞"]
-
-    def __init__(self):
-        self.text = []        
-        self.words = []
-            
-    def execute(self,sentence):
-        #データ読み込み
-        le = joblib.dump("le.pkl")
-        m = joblib.dump("model.pkl")
-        
-        #予測
-        cv = TfidfVectorizer(analyzer=extract_words)
-        text.append(sentence)
-        new_data = cv.transform(text)
-        classify=m.predict(new_data)
-        
-        #戻り値呼び出し
-        compatible_class = le.inverse_transform(classify)
-        result = reply_df.query('Label == '+ str(compatible_class))
-
-        return result["Words"]
+    text = []
 
     def extract_words(self,text):
+        words = []
+
         if not text:
             return []
 
@@ -53,3 +34,22 @@ class Predictor():
             node = node.next
 
         return words
+        
+    def execute(self,sentence):
+        #データ読み込み
+        m = joblib.load("app/static/app/pkl/model.pkl")
+        le = joblib.load("app/static/app/pkl/le.pkl")
+        
+        #予測
+        self.text.append(self.extract_words(sentence))
+        print(self.text)
+        tv = TfidfVectorizer()
+        new_data = tv.transform(self.text)
+        classify=m.predict(new_data)
+        
+        #戻り値呼び出し
+        compatible_class = le.inverse_transform(classify)
+        result = reply_df.query('Label == '+ str(compatible_class))
+        
+        print(result["Words"])
+        return result["Words"]

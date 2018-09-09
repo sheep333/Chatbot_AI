@@ -14,3 +14,8 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chatbot_app.settings')
 
 application = get_wsgi_application()
+
+
+#Heroku用静的ファイル設定
+#from whitenoise.django import DjangoWhiteNoise
+#application = DjangoWhiteNoise(application)

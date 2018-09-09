@@ -19,8 +19,8 @@ learning_data = [['sentence','label']]
 
 class StaticClass:
     static_cnt = 0
-    static_sentence_csv = pd.read_csv('learning_data.csv')
-    static_reply_csv = pd.read_csv('reply.csv')
+    static_sentence_csv = pd.read_csv('app/static/app/file/data.csv')
+    static_reply_csv = pd.read_csv('app/static/app/file/reply.csv')
 
     def __init__(self, str):
         StaticClass.static_cnt += 1
@@ -107,6 +107,7 @@ def predict(request):
     assert isinstance(request, HttpRequest)
     if request.method == 'GET':
         sentence = request.GET.get('sentence')
+        sentence = "お腹すいた"
         p = Predictor()
         result = p.execute(sentence)
         chat_data.append = [sentence,result['Label']]
@@ -141,7 +142,7 @@ def training(request):
     assert isinstance(request, HttpRequest)
     if request.method == 'GET':
         return HttpResponse(StaticClass.get_sentence_csv())
-    elif request.method == "POST";
+    elif request.method == "POST":
         sentence = request.POST.get('sentence')
         label = request.POST.get('label')
         learning_data.append(sentence,label)

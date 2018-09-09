@@ -80,9 +80,9 @@
             },
             'dataType': 'text',
             'type':'GET',
-        }).done({
-            end();
-        })
+        }).done(() => {
+            end()
+        });
     }
     //プログラムを終了する処理
     function end() {
